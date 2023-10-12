@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stormen/Features/dashboard/controllers/details_controller.dart';
 import 'package:stormen/Features/dashboard/screens/widgets/chart_titles_widget.dart';
+import 'package:stormen/Features/pdf/controller/pdf_controller.dart';
 import 'package:stormen/Utils/Widgets/appbar/home_appbar.dart';
 import 'package:stormen/Utils/Widgets/sizebox/space_widget.dart';
 
@@ -20,6 +21,7 @@ class DetailsScreen extends StatefulWidget {
 class _DetailsScreenState extends State<DetailsScreen> {
 
   final DetailsController detailsController = Get.put(DetailsController());
+  final PdfController pdfController = Get.put(PdfController());
 
   @override
   void initState() {
@@ -300,7 +302,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   children: [
                                     GestureDetector(
                                       onTap: (){
-
+                                        Get.defaultDialog(
+                                          title: 'Print the receipt?',
+                                          titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                          titlePadding: EdgeInsets.only(top: 20),
+                                          contentPadding: EdgeInsets.all(20),
+                                          middleText: 'Do you really want to print this receipt?',
+                                          confirm: FilledButton(onPressed: () async {
+                                            Get.back();
+                                            pdfController.Receipt(context,detailsController.foundUsers[index]);
+                                          }, child: Text('PRINT')),
+                                          cancel: OutlinedButton(onPressed: (){
+                                            Get.back();
+                                          },
+                                              child: Text('CANCEL')),
+                                        );
                                       },
                                       child: Container(
                                         padding:

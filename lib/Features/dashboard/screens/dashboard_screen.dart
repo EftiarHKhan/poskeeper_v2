@@ -28,23 +28,29 @@ class _DashboardScreenState extends State<DashboardScreen> {
       child: Scaffold(
         appBar: HomeAppBar(),
         drawer: SideMenuBar(),
-        bottomNavigationBar: GNav(
-          backgroundColor: Colors.blueAccent,
-          color: Colors.white,
-          activeColor: Colors.white,
-          tabBackgroundColor: Colors.blueAccent.shade700,
-          gap: 8,
-          onTabChange: (index){
-            setState(() {
-              _page=index;
-            });
-          },
-          padding: EdgeInsets.all(16),
-          tabs: const [
-            GButton(icon: LineAwesomeIcons.border_all,text: 'Dashboard',),
-            GButton(icon: LineAwesomeIcons.bar_chart_1,text: 'Stock Management',),
-            GButton(icon: LineAwesomeIcons.shopping_cart,text: 'Add / Sell Product',),
-          ],
+        bottomNavigationBar: Container(
+          color: Colors.blueAccent,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 8),
+            child: GNav(
+              backgroundColor: Colors.blueAccent,
+              color: Colors.white,
+              activeColor: Colors.white,
+              tabBackgroundColor: Colors.blue.shade800,
+              gap: 8,
+              onTabChange: (index){
+                setState(() {
+                  _page=index;
+                });
+              },
+              padding: EdgeInsets.all(16),
+              tabs: const [
+                GButton(icon: LineAwesomeIcons.border_all,text: 'Dashboard',),
+                GButton(icon: LineAwesomeIcons.bar_chart_1,text: 'Stock Management',),
+                GButton(icon: LineAwesomeIcons.shopping_cart,text: 'Add / Sell Product',),
+              ],
+            ),
+          ),
         ),
         body: pages[_page],
 
