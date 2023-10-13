@@ -36,7 +36,8 @@ class DatabaseHelper {
             purchasePrice DOUBLE,
             openingStock INTEGER,
             lowStock INTEGER,
-            date TEXT
+            date TEXT,
+            image TEXT
           )
         ''');
         },
@@ -105,6 +106,7 @@ class DatabaseHelper {
         lowStock: maps[index]['lowStock'],
         date: maps[index]['date'],
         id: maps[index]['id'],
+        image: maps[index]['image'],
       );
     });
 
@@ -164,6 +166,7 @@ class DatabaseHelper {
                 openingStock: value['openingStock'],
                 lowStock: value['lowStock'],
                 date: value['date'],
+                image: value['image'],
               );
               await _database.insert(
                 'allproduct',

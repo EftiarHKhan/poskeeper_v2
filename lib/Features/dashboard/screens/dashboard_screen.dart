@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stormen/Features/dashboard/screens/buy_sell_screen.dart';
+import 'package:stormen/Features/dashboard/screens/profile_screen.dart';
 import 'package:stormen/Features/dashboard/screens/stock_screen.dart';
 
 import '../../../Utils/Widgets/appbar/home_appbar.dart';
@@ -20,7 +21,7 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
 
   var _page = 0;
-  final pages = [DetailsScreen(),StockScreen(),BuySellScreen()];
+  final pages = [DetailsScreen(),StockScreen(),BuySellScreen(),ProfileScreen()];
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 GButton(icon: LineAwesomeIcons.border_all,text: 'Dashboard',),
                 GButton(icon: LineAwesomeIcons.bar_chart_1,text: 'Stock Management',),
                 GButton(icon: LineAwesomeIcons.shopping_cart,text: 'Add / Sell Product',),
+                GButton(icon: LineAwesomeIcons.user,text: 'Profile',),
               ],
             ),
           ),

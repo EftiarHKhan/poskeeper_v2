@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stormen/Constands/colors_strings.dart';
+import 'package:stormen/Constands/image_strings.dart';
 import 'package:stormen/Constands/sizes_strings.dart';
 import 'package:stormen/Constands/text_strings.dart';
 import 'package:stormen/DB_Helper/product/product_db.dart';
+import 'package:stormen/Features/add_product/controllers/image_picker_controller.dart';
 import 'package:stormen/Features/add_product/controllers/product_controller.dart';
 import 'package:stormen/Utils/Widgets/appbar/home_appbar.dart';
 import '../../../Utils/Widgets/sizebox/space_widget.dart';
@@ -20,6 +24,7 @@ class AddProductScreen extends StatefulWidget {
 class _AddProductScreenState extends State<AddProductScreen> {
 
   final ProductController productController = Get.put(ProductController());
+  final ImagePickerController im = Get.put(ImagePickerController());
 
   @override
   void initState() {
@@ -39,29 +44,77 @@ class _AddProductScreenState extends State<AddProductScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const Text(tProductName,style: TextStyle(color: tDarkColor,fontSize: tTextSize1,fontWeight: FontWeight.bold),),
-              space(10),
-              TextField(
-                controller: productController.p_name,
-                style: const TextStyle(color: tDarkColor),
-                //obscureText: true, // It's for password
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      LineAwesomeIcons.pen,
-                      color: tGrayCholor2,
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        const Text(tProductName,style: TextStyle(color: tDarkColor,fontSize: tTextSize1,fontWeight: FontWeight.bold),),
+                        space(10),
+                        TextField(
+                          controller: productController.p_name,
+                          style: const TextStyle(color: tDarkColor),
+                          //obscureText: true, // It's for password
+                          decoration: InputDecoration(
+                              prefixIcon: Icon(
+                                LineAwesomeIcons.pen,
+                                color: tGrayCholor2,
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(tButtonHeight),
+                                  borderSide:
+                                  const BorderSide(color: tBoarderLine)),
+                              enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(tButtonHeight),
+                                  borderSide:
+                                  const BorderSide(color: tGrayColor1)),
+                              labelText: tHint1,
+                              labelStyle:
+                              const TextStyle(color: tGrayColor1)),
+                          cursorColor: tGrayColor2,
+                        ),
+                      ],
                     ),
-                    focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(tButtonHeight),
-                        borderSide:
-                        const BorderSide(color: tBoarderLine)),
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(tButtonHeight),
-                        borderSide:
-                        const BorderSide(color: tGrayColor1)),
-                    labelText: tHint1,
-                    labelStyle:
-                    const TextStyle(color: tGrayColor1)),
-                cursorColor: tGrayColor2,
+                  ),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Obx(() => Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Center(
+                              child: CircleAvatar(
+                                radius: 40,
+                                backgroundImage: im.imagepath.isNotEmpty ? FileImage(File(im.imagepath.toString())) : null,
+                              ),
+                            ),
+                            ElevatedButton(onPressed: (){
+                              Get.defaultDialog(
+                                title: 'Pick a image',
+                                titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                titlePadding: EdgeInsets.only(top: 20),
+                                contentPadding: EdgeInsets.all(20),
+                                middleText: 'Do you really want to print this receipt?',
+                                confirm: OutlinedButton(onPressed: () async {
+                                  Get.back();
+                                  im.camera();
+                                }, child: Text('Pick from Camera')),
+                                cancel: FilledButton(onPressed: (){
+                                  Get.back();
+                                  im.gallery();
+                                },
+                                    child: Text('Pick from Gellary')),
+                              );
+                            }, child: Text("Pick Image"))
+                          ],
+                        )),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               space(25),
               Row(

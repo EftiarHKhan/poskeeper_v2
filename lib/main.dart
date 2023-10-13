@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       themeMode: ThemeMode.system,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent.shade200),
         useMaterial3: true,
       ),
       home: WelcomeScreen(),

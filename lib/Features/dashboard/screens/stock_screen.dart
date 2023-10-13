@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
@@ -163,192 +165,119 @@ class _StockScreenState extends State<StockScreen> with SingleTickerProviderStat
                                       showModalBottomSheet(context: context,
                                           builder: (BuildContext context){
                                             return SizedBox(
-                                              height: 400,
+                                              height: 415,
                                               width: double.infinity,
                                               child: Padding(
                                                 padding: const EdgeInsets.all(15.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(padding: EdgeInsets.only(top: 10)),
-                                                    Text("Item Name",style: TextStyle(color: Colors.grey.shade800),),
-                                                    Text(stockController.foundUsers[index].itemName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                    space(20),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Sale Price",style: TextStyle(fontSize: 13,color: Colors.grey),),
-                                                              Text("৳ ${stockController.foundUsers[index].salePrice.toString()}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                            ],
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(padding: EdgeInsets.only(top: 10)),
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Item Name",style: TextStyle(color: Colors.grey.shade800),),
+                                                                Text(stockController.foundUsers[index].itemName,style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Purchase Price",style: TextStyle(fontSize: 13,color: Colors.grey),),
-                                                              Text("৳ ${stockController.foundUsers[index].purchasePrice.toString()}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                            ],
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                              children: [Image.file(File(stockController.foundUsers[index].image),width: 100,height: 100,)
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Stock Quantity",style: TextStyle(fontSize: 13,color: Colors.grey),),
-                                                              Text(stockController.foundUsers[index].openingStock.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                            ],
+                                                        ],
+                                                      ),
+                                                      space(20),
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Sale Price",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                                                Text("৳ ${stockController.foundUsers[index].salePrice.toString()}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    space(15),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Stock Value",style: TextStyle(fontSize: 13,color: Colors.grey),),
-                                                              Text("৳ ${stockController.foundUsers[index].purchasePrice * stockController.foundUsers[index].openingStock}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                            ],
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Purchase Price",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                                                Text("৳ ${stockController.foundUsers[index].purchasePrice.toString()}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Units",style: TextStyle(fontSize: 13,color: Colors.grey),),
-                                                              Text("NOS",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                            ],
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Stock Quantity",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                                                Text(stockController.foundUsers[index].openingStock.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Column(
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Low Stock Alert",style: TextStyle(fontSize: 13,color: Colors.grey),),
-                                                              Text(stockController.foundUsers[index].lowStock.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                                                            ],
+                                                        ],
+                                                      ),
+                                                      space(15),
+                                                      Row(
+                                                        children: [
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Stock Value",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                                                Text("৳ ${stockController.foundUsers[index].purchasePrice * stockController.foundUsers[index].openingStock}",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    space(30),
-                                                    SizedBox(
-                                                      width: double.infinity,
-                                                      child: ElevatedButton(style: ElevatedButton.styleFrom(
-                                                        primary: Colors.blueAccent,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius: BorderRadius.circular(20),
-                                                        ),
-                                                      ),onPressed: () async {
-                                                        Get.back();
-                                                        showModalBottomSheet(context: context,builder: (BuildContext context){
-                                                          return SizedBox(
-                                                              height: 600,
-                                                              width: double.infinity,
-                                                              child: Padding(
-                                                                padding: EdgeInsets.all(15),
-                                                                child: Column(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  children: [
-                                                                    space(5),
-                                                                    Text("Product Name : ${stockController.foundUsers[index].itemName}",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
-                                                                    space(10),
-                                                                    Text("Enter Quantity of sold items",style: TextStyle(color: Colors.grey.shade800,fontSize: 15)),
-                                                                    space(10),
-                                                                    TextField(
-                                                                      controller: stockController.p_quantity,
-                                                                      keyboardType: TextInputType.number,
-                                                                      style: TextStyle(color: Colors.black,fontSize: 40.0),
-                                                                      decoration: InputDecoration(
-                                                                        hintText: '0 NOS',
-                                                                        hintStyle: TextStyle(fontSize: 40.0),
-                                                                        // Adjust the fontSize here
-                                                                      ),
-                                                                      cursorColor: Color(0xff6F6F6F),
-                                                                    ),
-                                                                    space(20),
-                                                                    Expanded(
-                                                                      flex: 1,
-                                                                      child: Column(
-                                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                                        children: <Widget>[
-                                                                          Text("Sale Price",style: TextStyle(color: Colors.grey.shade800,fontSize: 15),),
-                                                                          space(10),
-                                                                          TextField(
-                                                                            controller: stockController.s_pr,
-                                                                            keyboardType: TextInputType.number,
-                                                                            style: TextStyle(color: Colors.black),
-                                                                            //obscureText: true, // It's for password
-                                                                            decoration: InputDecoration(
-                                                                                prefixIcon: Icon(
-                                                                                  LineAwesomeIcons.alternate_wavy_money_bill,
-                                                                                  color: Colors.green,
-                                                                                ),
-                                                                                focusedBorder: OutlineInputBorder(
-                                                                                    borderRadius: BorderRadius.circular(15),
-                                                                                    borderSide:
-                                                                                    BorderSide(color: Colors.blueAccent.shade200)),
-                                                                                enabledBorder: OutlineInputBorder(
-                                                                                    borderRadius: BorderRadius.circular(15),
-                                                                                    borderSide:
-                                                                                    BorderSide(color: Color(0xff6F6F6F))),
-                                                                                labelText: "Enter Amount",
-                                                                                labelStyle:
-                                                                                TextStyle(color: Color(0xff6F6F6F))),
-                                                                            cursorColor: Color(0xff9DB9DD),
-                                                                          ),
-                                                                          space(25),
-                                                                          SizedBox(
-                                                                              width: double.infinity,
-                                                                              child: ElevatedButton(
-                                                                                  style: ElevatedButton.styleFrom(
-                                                                                    primary: Colors.blue,
-                                                                                    shape: RoundedRectangleBorder(
-                                                                                      borderRadius: BorderRadius.circular(20),
-                                                                                    ),),
-                                                                                  onPressed: () async {
-                                                                                    Get.back();
-                                                                                    stockController.sell_product(index);
-                                                                                    Get.snackbar('Notice', 'Product Selled');
-
-                                                                              }, child: Text("CONFIRM",style: TextStyle(color: Colors.white),)))
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              )
-                                                          );
-                                                        });
-
-
-                                                      }, child: Text("SELL",style: TextStyle(color: Colors.white),)),
-                                                    ),
-                                                    space(10),
-                                                    Row(
-                                                      children: [
-                                                        Expanded(flex:1,child: ElevatedButton(style: ElevatedButton.styleFrom(
-                                                          primary: Colors.green,
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Units",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                                                Text("NOS",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                          Expanded(
+                                                            flex: 1,
+                                                            child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Low Stock Alert",style: TextStyle(fontSize: 13,color: Colors.grey),),
+                                                                Text(stockController.foundUsers[index].lowStock.toString(),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      space(30),
+                                                      SizedBox(
+                                                        width: double.infinity,
+                                                        child: ElevatedButton(style: ElevatedButton.styleFrom(
+                                                          primary: Colors.blueAccent,
                                                           shape: RoundedRectangleBorder(
                                                             borderRadius: BorderRadius.circular(20),
                                                           ),
-                                                        ),onPressed: (){
-                                                          Navigator.of(context).pop();
-                                                          showModalBottomSheet(context: context, builder: (BuildContext context){
-                                                            return SingleChildScrollView(
-                                                              child: SizedBox(
+                                                        ),onPressed: () async {
+                                                          Get.back();
+                                                          showModalBottomSheet(context: context,builder: (BuildContext context){
+                                                            return SizedBox(
                                                                 height: 600,
                                                                 width: double.infinity,
                                                                 child: Padding(
@@ -356,226 +285,321 @@ class _StockScreenState extends State<StockScreen> with SingleTickerProviderStat
                                                                   child: Column(
                                                                     crossAxisAlignment: CrossAxisAlignment.start,
                                                                     children: [
-                                                                      Padding(padding: EdgeInsets.only(top: 10)),
-                                                                      Text("Product Name",style: TextStyle(color: Colors.grey.shade800,fontWeight: FontWeight.bold),),
+                                                                      space(5),
+                                                                      Text("Product Name : ${stockController.foundUsers[index].itemName}",style: TextStyle(color: Colors.black,fontSize: 20,fontWeight: FontWeight.bold),),
+                                                                      space(10),
+                                                                      Text("Enter Quantity of sold items",style: TextStyle(color: Colors.grey.shade800,fontSize: 15)),
                                                                       space(10),
                                                                       TextField(
-                                                                        controller: stockController.p_name,
-                                                                        style: TextStyle(color: Colors.black),
-                                                                        //obscureText: true, // It's for password
+                                                                        controller: stockController.p_quantity,
+                                                                        keyboardType: TextInputType.number,
+                                                                        style: TextStyle(color: Colors.black,fontSize: 40.0),
                                                                         decoration: InputDecoration(
-                                                                            prefixIcon: Icon(
-                                                                              LineAwesomeIcons.pen,
-                                                                              color: Colors.grey,
-                                                                            ),
-                                                                            focusedBorder: OutlineInputBorder(
-                                                                                borderRadius: BorderRadius.circular(15),
-                                                                                borderSide:
-                                                                                BorderSide(color: Colors.blueAccent.shade200)),
-                                                                            enabledBorder: OutlineInputBorder(
-                                                                                borderRadius: BorderRadius.circular(15),
-                                                                                borderSide:
-                                                                                BorderSide(color: Color(0xff6F6F6F))),
-                                                                            labelText: stockController.foundUsers[index].itemName,
-                                                                            labelStyle:
-                                                                            TextStyle(color: Color(
-                                                                                0xff313131))),
+                                                                          hintText: '0 NOS',
+                                                                          hintStyle: TextStyle(fontSize: 40.0),
+                                                                          // Adjust the fontSize here
+                                                                        ),
                                                                         cursorColor: Color(0xff6F6F6F),
                                                                       ),
-                                                                      space(15),
-                                                                      Row(
-                                                                        children: <Widget>[
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: <Widget>[
-                                                                                Text("Sale Price",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
-                                                                                space(10),
-                                                                                TextField(
-                                                                                  keyboardType: TextInputType.number,
-                                                                                  controller: stockController.s_price,
-                                                                                  style: TextStyle(color: Colors.black),
-                                                                                  //obscureText: true, // It's for password
-                                                                                  decoration: InputDecoration(
-                                                                                      prefixIcon: Icon(
-                                                                                        LineAwesomeIcons.alternate_wavy_money_bill,
-                                                                                        color: Colors.green,
-                                                                                      ),
-                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Colors.blueAccent.shade200)),
-                                                                                      enabledBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Color(0xff6F6F6F))),
-                                                                                      labelText: stockController.foundUsers[index].salePrice.toString(),
-                                                                                      labelStyle:
-                                                                                      TextStyle(color: Color(0xff6F6F6F))),
-                                                                                  cursorColor: Color(0xff9DB9DD),
-                                                                                ),
-                                                                              ],
+                                                                      space(20),
+                                                                      Expanded(
+                                                                        flex: 1,
+                                                                        child: Column(
+                                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                                          children: <Widget>[
+                                                                            Text("Sale Price",style: TextStyle(color: Colors.grey.shade800,fontSize: 15),),
+                                                                            space(10),
+                                                                            TextField(
+                                                                              controller: stockController.s_pr,
+                                                                              keyboardType: TextInputType.number,
+                                                                              style: TextStyle(color: Colors.black),
+                                                                              //obscureText: true, // It's for password
+                                                                              decoration: InputDecoration(
+                                                                                  prefixIcon: Icon(
+                                                                                    LineAwesomeIcons.alternate_wavy_money_bill,
+                                                                                    color: Colors.green,
+                                                                                  ),
+                                                                                  focusedBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.circular(15),
+                                                                                      borderSide:
+                                                                                      BorderSide(color: Colors.blueAccent.shade200)),
+                                                                                  enabledBorder: OutlineInputBorder(
+                                                                                      borderRadius: BorderRadius.circular(15),
+                                                                                      borderSide:
+                                                                                      BorderSide(color: Color(0xff6F6F6F))),
+                                                                                  labelText: "Enter Amount",
+                                                                                  labelStyle:
+                                                                                  TextStyle(color: Color(0xff6F6F6F))),
+                                                                              cursorColor: Color(0xff9DB9DD),
                                                                             ),
-                                                                          ),
-                                                                          space2(20),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: <Widget>[
-                                                                                Text("Purchase Price",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
-                                                                                space(10),
-                                                                                TextField(
-                                                                                  keyboardType: TextInputType.number,
-                                                                                  controller: stockController.p_price,
-                                                                                  style: TextStyle(color: Colors.black),
-                                                                                  //obscureText: true, // It's for password
-                                                                                  decoration: InputDecoration(
-                                                                                      prefixIcon: Icon(
-                                                                                        LineAwesomeIcons.alternate_wavy_money_bill,
-                                                                                        color: Colors.redAccent,
-                                                                                      ),
-                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Colors.blueAccent.shade200)),
-                                                                                      enabledBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Color(0xff6F6F6F))),
-                                                                                      labelText: stockController.foundUsers[index].purchasePrice.toString(),
-                                                                                      labelStyle:
-                                                                                      TextStyle(color: Color(0xff6F6F6F))),
-                                                                                  cursorColor: Color(0xff6F6F6F),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      space(15),
-                                                                      Row(
-                                                                        children: <Widget>[
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: <Widget>[
-                                                                                Text("Opening Stock",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
-                                                                                space(10),
-                                                                                TextField(
-                                                                                  keyboardType: TextInputType.number,
-                                                                                  controller: stockController.o_stock,
-                                                                                  style: TextStyle(color: Colors.black),
-                                                                                  //obscureText: true, // It's for password
-                                                                                  decoration: InputDecoration(
-                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Colors.blueAccent.shade200)),
-                                                                                      enabledBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Color(0xff6F6F6F))),
-                                                                                      labelText: stockController.foundUsers[index].openingStock.toString(),
-                                                                                      labelStyle:
-                                                                                      TextStyle(color: Color(0xff6F6F6F))),
-                                                                                  cursorColor: Color(0xff9DB9DD),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                          space2(20),
-                                                                          Expanded(
-                                                                            flex: 1,
-                                                                            child: Column(
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: <Widget>[
-                                                                                Text("Low Stock Alert",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
-                                                                                space(10),
-                                                                                TextField(
-                                                                                  keyboardType: TextInputType.number,
-                                                                                  controller: stockController.l_stock,
-                                                                                  style: TextStyle(color: Colors.black),
-                                                                                  //obscureText: true, // It's for password
-                                                                                  decoration: InputDecoration(
-                                                                                      suffixIcon: Icon(
-                                                                                        LineAwesomeIcons.bell,
-                                                                                        color: Colors.grey,
-                                                                                      ),
-                                                                                      focusedBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Colors.blueAccent.shade200)),
-                                                                                      enabledBorder: OutlineInputBorder(
-                                                                                          borderRadius: BorderRadius.circular(15),
-                                                                                          borderSide:
-                                                                                          BorderSide(color: Color(0xff6F6F6F))),
-                                                                                      labelText: stockController.foundUsers[index].lowStock.toString(),
-                                                                                      labelStyle:
-                                                                                      TextStyle(color: Color(0xff6F6F6F))),
-                                                                                  cursorColor: Color(0xff9DB9DD),
-                                                                                ),
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ],
-                                                                      ),
-                                                                      space(15),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets.all(10.0),
-                                                                        child: Container(
-                                                                          alignment: Alignment.center,
-                                                                          //color: Colors.white,
-                                                                          child: ElevatedButton(
-                                                                              style: ElevatedButton.styleFrom(
-                                                                                primary: Colors.green,
-                                                                                shape: RoundedRectangleBorder(
-                                                                                  borderRadius: BorderRadius.circular(20),
-                                                                                ),
-                                                                              ),
-                                                                              onPressed: () async {
-                                                                                stockController.update_product(index);
-                                                                              },
-                                                                              child: Text("CONFIRM",style: TextStyle(color: Colors.white),)),
+                                                                            space(25),
+                                                                            SizedBox(
+                                                                                width: double.infinity,
+                                                                                child: ElevatedButton(
+                                                                                    style: ElevatedButton.styleFrom(
+                                                                                      primary: Colors.blue,
+                                                                                      shape: RoundedRectangleBorder(
+                                                                                        borderRadius: BorderRadius.circular(20),
+                                                                                      ),),
+                                                                                    onPressed: () async {
+                                                                                      Get.back();
+                                                                                      stockController.sell_product(index);
+                                                                                      Get.snackbar('Notice', 'Product Selled');
+
+                                                                                }, child: Text("CONFIRM",style: TextStyle(color: Colors.white),)))
+                                                                          ],
                                                                         ),
                                                                       ),
                                                                     ],
                                                                   ),
-                                                                ),
-                                                              ),
+                                                                )
                                                             );
                                                           });
-                                                        }, child: Text("UPDATE",style: TextStyle(color: Colors.white),))),
-                                                        space2(10),
-                                                        Expanded(flex:1,child: ElevatedButton(style: ElevatedButton.styleFrom(
-                                                          primary: Colors.red,
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(20),
-                                                          ),
-                                                        ),onPressed: () async {
-                                                          Get.defaultDialog(
-                                                            title: 'Confirm the action',
-                                                            titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
-                                                            titlePadding: EdgeInsets.only(top: 20),
-                                                            contentPadding: EdgeInsets.all(20),
-                                                            middleText: 'Do you really want to delete this product?',
-                                                            confirm: FilledButton(onPressed: () async {
-                                                              Get.back();
-                                                              Get.back();
-                                                              await stockController.deleteProduct(stockController.foundUsers[index].id);
-                                                            }, child: Text('CONFIRM')),
-                                                            cancel: OutlinedButton(onPressed: (){
-                                                              Get.back();
-                                                            },
-                                                                child: Text('CANCEL')),
-                                                          );
 
-                                                        }, child: Text("DELETE",style: TextStyle(color: Colors.white),))),
-                                                      ],)
 
-                                                  ],
+                                                        }, child: Text("SELL",style: TextStyle(color: Colors.white),)),
+                                                      ),
+                                                      space(10),
+                                                      Row(
+                                                        children: [
+                                                          Expanded(flex:1,child: ElevatedButton(style: ElevatedButton.styleFrom(
+                                                            primary: Colors.green,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(20),
+                                                            ),
+                                                          ),onPressed: (){
+                                                            Navigator.of(context).pop();
+                                                            showModalBottomSheet(context: context, builder: (BuildContext context){
+                                                              return SingleChildScrollView(
+                                                                child: SizedBox(
+                                                                  height: 600,
+                                                                  width: double.infinity,
+                                                                  child: Padding(
+                                                                    padding: EdgeInsets.all(15),
+                                                                    child: Column(
+                                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                                      children: [
+                                                                        Padding(padding: EdgeInsets.only(top: 10)),
+                                                                        Text("Product Name",style: TextStyle(color: Colors.grey.shade800,fontWeight: FontWeight.bold),),
+                                                                        space(10),
+                                                                        TextField(
+                                                                          controller: stockController.p_name,
+                                                                          style: TextStyle(color: Colors.black),
+                                                                          //obscureText: true, // It's for password
+                                                                          decoration: InputDecoration(
+                                                                              prefixIcon: Icon(
+                                                                                LineAwesomeIcons.pen,
+                                                                                color: Colors.grey,
+                                                                              ),
+                                                                              focusedBorder: OutlineInputBorder(
+                                                                                  borderRadius: BorderRadius.circular(15),
+                                                                                  borderSide:
+                                                                                  BorderSide(color: Colors.blueAccent.shade200)),
+                                                                              enabledBorder: OutlineInputBorder(
+                                                                                  borderRadius: BorderRadius.circular(15),
+                                                                                  borderSide:
+                                                                                  BorderSide(color: Color(0xff6F6F6F))),
+                                                                              labelText: stockController.foundUsers[index].itemName,
+                                                                              labelStyle:
+                                                                              TextStyle(color: Color(
+                                                                                  0xff313131))),
+                                                                          cursorColor: Color(0xff6F6F6F),
+                                                                        ),
+                                                                        space(15),
+                                                                        Row(
+                                                                          children: <Widget>[
+                                                                            Expanded(
+                                                                              flex: 1,
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: <Widget>[
+                                                                                  Text("Sale Price",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
+                                                                                  space(10),
+                                                                                  TextField(
+                                                                                    keyboardType: TextInputType.number,
+                                                                                    controller: stockController.s_price,
+                                                                                    style: TextStyle(color: Colors.black),
+                                                                                    //obscureText: true, // It's for password
+                                                                                    decoration: InputDecoration(
+                                                                                        prefixIcon: Icon(
+                                                                                          LineAwesomeIcons.alternate_wavy_money_bill,
+                                                                                          color: Colors.green,
+                                                                                        ),
+                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Colors.blueAccent.shade200)),
+                                                                                        enabledBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Color(0xff6F6F6F))),
+                                                                                        labelText: stockController.foundUsers[index].salePrice.toString(),
+                                                                                        labelStyle:
+                                                                                        TextStyle(color: Color(0xff6F6F6F))),
+                                                                                    cursorColor: Color(0xff9DB9DD),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            space2(20),
+                                                                            Expanded(
+                                                                              flex: 1,
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: <Widget>[
+                                                                                  Text("Purchase Price",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
+                                                                                  space(10),
+                                                                                  TextField(
+                                                                                    keyboardType: TextInputType.number,
+                                                                                    controller: stockController.p_price,
+                                                                                    style: TextStyle(color: Colors.black),
+                                                                                    //obscureText: true, // It's for password
+                                                                                    decoration: InputDecoration(
+                                                                                        prefixIcon: Icon(
+                                                                                          LineAwesomeIcons.alternate_wavy_money_bill,
+                                                                                          color: Colors.redAccent,
+                                                                                        ),
+                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Colors.blueAccent.shade200)),
+                                                                                        enabledBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Color(0xff6F6F6F))),
+                                                                                        labelText: stockController.foundUsers[index].purchasePrice.toString(),
+                                                                                        labelStyle:
+                                                                                        TextStyle(color: Color(0xff6F6F6F))),
+                                                                                    cursorColor: Color(0xff6F6F6F),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        space(15),
+                                                                        Row(
+                                                                          children: <Widget>[
+                                                                            Expanded(
+                                                                              flex: 1,
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: <Widget>[
+                                                                                  Text("Opening Stock",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
+                                                                                  space(10),
+                                                                                  TextField(
+                                                                                    keyboardType: TextInputType.number,
+                                                                                    controller: stockController.o_stock,
+                                                                                    style: TextStyle(color: Colors.black),
+                                                                                    //obscureText: true, // It's for password
+                                                                                    decoration: InputDecoration(
+                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Colors.blueAccent.shade200)),
+                                                                                        enabledBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Color(0xff6F6F6F))),
+                                                                                        labelText: stockController.foundUsers[index].openingStock.toString(),
+                                                                                        labelStyle:
+                                                                                        TextStyle(color: Color(0xff6F6F6F))),
+                                                                                    cursorColor: Color(0xff9DB9DD),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            space2(20),
+                                                                            Expanded(
+                                                                              flex: 1,
+                                                                              child: Column(
+                                                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                children: <Widget>[
+                                                                                  Text("Low Stock Alert",style: TextStyle(color: Colors.grey.shade600,fontSize: 16,fontWeight: FontWeight.bold),),
+                                                                                  space(10),
+                                                                                  TextField(
+                                                                                    keyboardType: TextInputType.number,
+                                                                                    controller: stockController.l_stock,
+                                                                                    style: TextStyle(color: Colors.black),
+                                                                                    //obscureText: true, // It's for password
+                                                                                    decoration: InputDecoration(
+                                                                                        suffixIcon: Icon(
+                                                                                          LineAwesomeIcons.bell,
+                                                                                          color: Colors.grey,
+                                                                                        ),
+                                                                                        focusedBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Colors.blueAccent.shade200)),
+                                                                                        enabledBorder: OutlineInputBorder(
+                                                                                            borderRadius: BorderRadius.circular(15),
+                                                                                            borderSide:
+                                                                                            BorderSide(color: Color(0xff6F6F6F))),
+                                                                                        labelText: stockController.foundUsers[index].lowStock.toString(),
+                                                                                        labelStyle:
+                                                                                        TextStyle(color: Color(0xff6F6F6F))),
+                                                                                    cursorColor: Color(0xff9DB9DD),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                        space(15),
+                                                                        Padding(
+                                                                          padding: const EdgeInsets.all(10.0),
+                                                                          child: Container(
+                                                                            alignment: Alignment.center,
+                                                                            //color: Colors.white,
+                                                                            child: ElevatedButton(
+                                                                                style: ElevatedButton.styleFrom(
+                                                                                  primary: Colors.green,
+                                                                                  shape: RoundedRectangleBorder(
+                                                                                    borderRadius: BorderRadius.circular(20),
+                                                                                  ),
+                                                                                ),
+                                                                                onPressed: () async {
+                                                                                  stockController.update_product(index);
+                                                                                },
+                                                                                child: Text("CONFIRM",style: TextStyle(color: Colors.white),)),
+                                                                          ),
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            });
+                                                          }, child: Text("UPDATE",style: TextStyle(color: Colors.white),))),
+                                                          space2(10),
+                                                          Expanded(flex:1,child: ElevatedButton(style: ElevatedButton.styleFrom(
+                                                            primary: Colors.red,
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius.circular(20),
+                                                            ),
+                                                          ),onPressed: () async {
+                                                            Get.defaultDialog(
+                                                              title: 'Confirm the action',
+                                                              titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                                                              titlePadding: EdgeInsets.only(top: 20),
+                                                              contentPadding: EdgeInsets.all(20),
+                                                              middleText: 'Do you really want to delete this product?',
+                                                              confirm: FilledButton(onPressed: () async {
+                                                                Get.back();
+                                                                Get.back();
+                                                                await stockController.deleteProduct(stockController.foundUsers[index].id);
+                                                              }, child: Text('CONFIRM')),
+                                                              cancel: OutlinedButton(onPressed: (){
+                                                                Get.back();
+                                                              },
+                                                                  child: Text('CANCEL')),
+                                                            );
+
+                                                          }, child: Text("DELETE",style: TextStyle(color: Colors.white),))),
+                                                        ],)
+
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             );

@@ -18,7 +18,7 @@ HomeAppBar() {
         onPressed: () {
           Get.to(About());
         },
-        icon: Icon(LineAwesomeIcons.user, color: Colors.black),
+        icon: Icon(LineAwesomeIcons.exclamation_circle, color: Colors.black),
       )
     ],
   );

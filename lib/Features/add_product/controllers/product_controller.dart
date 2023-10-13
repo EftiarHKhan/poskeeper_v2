@@ -3,9 +3,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:stormen/Constands/text_strings.dart';
 import 'package:stormen/DB_Helper/product/product_db.dart';
+import 'package:stormen/Features/add_product/controllers/image_picker_controller.dart';
 import 'package:stormen/Features/add_product/model/product_model.dart';
 
 class ProductController extends GetxController{
+
+  final ImagePickerController im = Get.put(ImagePickerController());
 
   var p_name = TextEditingController();
   var s_price = TextEditingController();
@@ -30,6 +33,7 @@ class ProductController extends GetxController{
       openingStock: openingStock,
       lowStock: lowStock,
       date: DateFormat('dd-MM-yyyy').format(now),
+      image: im.imagepath.value,
     );
     try {
       await databaseHelper.insertProduct(newProduct);

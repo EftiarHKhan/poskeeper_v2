@@ -6,6 +6,7 @@ class Product {
   final int lowStock;
   final String date;
   final int id;
+  final String image;
 
   Product({
     required this.itemName,
@@ -15,6 +16,7 @@ class Product {
     required this.lowStock,
     required this.date,
     this.id=0,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class Product {
       'openingStock': openingStock,
       'lowStock': lowStock,
       'date': date,
+      'image': image,
     };
   }
 }
