@@ -39,7 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               builder: (context,snapshot){
                 if(snapshot.connectionState == ConnectionState.done){
                   if(snapshot.hasData){
-                    UserModel userData = snapshot.data as UserModel;
+                    UserModel2 userData = snapshot.data as UserModel2;
                     return Column(
                       children: [
                         SizedBox(

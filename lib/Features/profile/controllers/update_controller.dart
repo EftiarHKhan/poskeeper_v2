@@ -19,7 +19,7 @@ class UpdateProfileController extends GetxController{
     }
   }
 
-  updateRecord(UserModel user) async{
+  updateRecord(UserModel2 user) async{
     await _userRepo.updateUserRecord(user);
   }
 }

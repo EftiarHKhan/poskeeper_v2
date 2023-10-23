@@ -18,17 +18,22 @@ class UserRepository extends GetxController{
     });
   }
 
-  Future<UserModel> getUserDetails(String email) async{
+  Future<UserModel2> getUserDetails(String email) async{
     final snapshot = await _db.collection("Users").where("Email" , isEqualTo: email).get();
-    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+    final userData = snapshot.docs.map((e) => UserModel2.fromSnapshot(e)).single;
     return userData;
   }
 
-  Future<void> updateUserRecord(UserModel user) async{
+  Future<void> updateUserRecord(UserModel2 user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String uid = prefs.getString(key) ?? '';
-    await _db.collection("Users").doc(uid).update(user.toJson());
-    Get.snackbar('Update', 'Profile updated successfully');
+
+    if (uid.isNotEmpty) {
+      await _db.collection("Users").doc(uid).update(user.toJson2());
+      Get.snackbar('Update', 'Profile updated successfully');
+    } else {
+      Get.snackbar('Error', 'User ID is empty or not available');
+    }
   }
 
 }

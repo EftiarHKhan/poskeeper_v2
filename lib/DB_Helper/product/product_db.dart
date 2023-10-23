@@ -6,11 +6,13 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:stormen/Features/add_product/model/product_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DatabaseHelper {
 
   late Database _database;
   late DatabaseReference _databaseReference;
+  final String key = 'myUIDKey';
 
   static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
 
@@ -49,27 +51,29 @@ class DatabaseHelper {
 
 
   Future<void> insertProduct(Product product) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString(key) ?? '';
 
-    //DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child('Device_ID');
-    //String? deviceId = await getDeviceId();
-    //String? deviceName = await getDeviceName();
-    //firebaseRef.child(deviceName.toString()).set(deviceId);
+    DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child(uid).child('Device_ID');
+    String? deviceId = await getDeviceId();
+    String? deviceName = await getDeviceName();
+    firebaseRef.child(deviceName.toString()).set(deviceId);
 
-    //_databaseReference = FirebaseDatabase.instance.ref().child('New_Products');
+    _databaseReference = FirebaseDatabase.instance.ref().child(uid).child('All_Product');
+
     await _database.insert(
       'allproduct',
       product.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-    //_databaseReference.child(product.itemName.toString()).set(product.toMap());
+    await _databaseReference.child(product.itemName.toString()).set(product.toMap());
   }
   Future<String?> getDeviceName() async {
     final DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     try {
       if (Platform.isAndroid) {
         final AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        print(androidInfo.model);
-        return androidInfo.model; // This will give you the device name on Android
+        return androidInfo.brand; // This will give you the device name on Android
       } else if (Platform.isIOS) {
         final IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
         return iosInfo.name; // This will give you the device name on iOS
@@ -85,7 +89,7 @@ class DatabaseHelper {
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     if (Platform.isAndroid) {
       AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-      return androidInfo.id; // This is the unique identifier for Android devices
+      return androidInfo.serialNumber; // This is the unique identifier for Android devices
     } else if (Platform.isIOS) {
       IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
       return iosInfo.identifierForVendor; // This is the unique identifier for iOS devices
@@ -120,21 +124,23 @@ class DatabaseHelper {
 
   Future<void> syncDataToFirebase(BuildContext context) async {
     // Reference to the Firebase node where products are stored
-    DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child('Sync_Product');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString(key) ?? '';
+    DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child(uid).child('All_Product');
 
     try {
       // Query all products from Firebase and remove them
       // Query all products from SQLite
       final List<Product> products = await queryAllProducts();
       if (products.isEmpty) {
-        Get.snackbar('Notice', 'Product List is Empty');
+        await syncFirebaseDataToLocalDatabase(context);
       }else{
         await firebaseRef.remove();
         // Iterate through each product and sync it with Firebase
         for (Product product in products) {
           try {
             // Insert the product as a new record in Firebase
-            await firebaseRef.child(product.id.toString()).set(product.toMap());
+            await firebaseRef.child("${product.id.toString()}-${product.itemName.toString()}").set(product.toMap());
           } catch (error) {
             print('Error syncing product to Firebase: ${error.toString()}');
           }
@@ -149,33 +155,40 @@ class DatabaseHelper {
 
 
   Future<void> syncFirebaseDataToLocalDatabase(BuildContext context) async {
-    final DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child('Sync_Product');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString(key) ?? '';
+    final DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child(uid).child('All_Product');
     try {
       List<Product> existingProducts = await queryAllProducts();
       if (existingProducts.isEmpty) {
         DatabaseEvent snapshot = await firebaseRef.once();
-        if (snapshot.snapshot.value != null && snapshot.snapshot.value is List<dynamic>) {
-          List<dynamic> data = snapshot.snapshot.value as List<dynamic>;
-          for (var value in data) {
-            // Add a null check before accessing properties
-            if (value != null) {
-              Product product = Product(
-                itemName: value['itemName'],
-                salePrice: value['salePrice'].toDouble(),
-                purchasePrice: value['purchasePrice'].toDouble(),
-                openingStock: value['openingStock'],
-                lowStock: value['lowStock'],
-                date: value['date'],
-                image: value['image'],
-              );
-              await _database.insert(
-                'allproduct',
-                product.toMap(),
-                conflictAlgorithm: ConflictAlgorithm.replace,
-              );
-            }
-          };
-          Get.snackbar('Notice', 'Product Sync Successfully');
+        if (snapshot.snapshot.value != null) {
+          if (snapshot.snapshot.value is Map) {
+            Map<dynamic, dynamic> data = snapshot.snapshot.value as Map<dynamic, dynamic>;
+            data.forEach((key, value) async {
+              if (value != null && value is Map<dynamic, dynamic>) {
+                Product product = Product(
+                  itemName: value['itemName'] as String? ?? '',
+                  salePrice: (value['salePrice'] as num? ?? 0).toDouble(),
+                  purchasePrice: (value['purchasePrice'] as num? ?? 0).toDouble(),
+                  openingStock: (value['openingStock'] as int? ?? 0),
+                  lowStock: (value['lowStock'] as int? ?? 0),
+                  date: value['date'] as String? ?? '',
+                  image: value['image'] as String? ?? '',
+                );
+                await _database.insert(
+                  'allproduct',
+                  product.toMap(),
+                  conflictAlgorithm: ConflictAlgorithm.replace,
+                );
+              }
+            });
+            Get.snackbar('Notice', 'Product Sync Successfully');
+          } else {
+            print('Data is not in the expected format (Map)');
+          }
+        } else {
+          print('Data is empty in Firebase');
         }
       } else {
         Get.snackbar('Notice', 'Database already contains data');

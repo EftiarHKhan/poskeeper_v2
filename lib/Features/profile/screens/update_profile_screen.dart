@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,7 @@ import 'package:stormen/Constands/colors_strings.dart';
 import 'package:stormen/Constands/image_strings.dart';
 import 'package:stormen/Constands/sizes_strings.dart';
 import 'package:stormen/Constands/text_strings.dart';
+import 'package:stormen/Features/add_product/controllers/image_picker_controller.dart';
 import 'package:stormen/Features/authentication/model/user_model.dart';
 import 'package:stormen/Features/profile/controllers/update_controller.dart';
 import 'package:stormen/Utils/Widgets/sizebox/space_widget.dart';
@@ -19,6 +22,7 @@ class UpdateProfileScreen extends StatefulWidget {
 
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
   final UpdateProfileController updateProfileController = Get.put(UpdateProfileController());
+  final ImagePickerController im = Get.put(ImagePickerController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +37,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
             builder: (context,snapshot){
               if(snapshot.connectionState == ConnectionState.done){
                 if(snapshot.hasData){
-                  UserModel userData = snapshot.data as UserModel;
+                  UserModel2 userData = snapshot.data as UserModel2;
                   final name = TextEditingController(text: userData.fullname);
                   final email = TextEditingController(text: userData.email);
                   final pass = TextEditingController(text: userData.password);
@@ -41,23 +45,38 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   final storename = TextEditingController(text: userData.storeName);
                   return Column(
                     children: [
-                      Stack(
+                      GestureDetector(
+                        onTap: () {
+                          im.camera();
+                        },
+                        child: Stack(
                           children: [
                             SizedBox(
                               width: 120,
                               height: 120,
-                              child: ClipRRect(borderRadius:BorderRadius.circular(100),child: Image(image: AssetImage(tProfileImage),)),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(100),
+                                child: CircleAvatar(
+                                  radius: 40,
+                                  backgroundImage: userData.image!.isEmpty ? null : FileImage(File(userData.image!))
+                                ),
+                              ),
                             ),
                             Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  width: 35,
-                                  height: 35,
-                                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(100),color: Colors.blueAccent.shade200),
-                                  child: Icon(LineAwesomeIcons.camera,color: tWhiteColor,size: 20,),
-                                )),
-                          ]
+                              bottom: 0,
+                              right: 0,
+                              child: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  color: Colors.blueAccent.shade200,
+                                ),
+                                child: Icon(LineAwesomeIcons.camera, color: tWhiteColor, size: 20),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       space(50),
                       Form(
@@ -113,12 +132,14 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                               child: SizedBox(
                                   width: 200,
                                   child: ElevatedButton(onPressed: () async {
-                                    final userdata = UserModel(
+                                    final userdata = UserModel2(
                                         fullname: name.text.trim(),
                                         email: email.text.trim(),
                                         phoneNo: phone.text.trim(),
                                         password: pass.text.trim(),
-                                        storeName: storename.text.trim());
+                                        storeName: storename.text.trim(),
+                                        image:im.imagepath.value,
+                                    );
 
                                     await updateProfileController.updateRecord(userdata);
                                   }, child: Text('Save'))),
