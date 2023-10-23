@@ -19,7 +19,7 @@ class SignUpController extends GetxController{
   final UserRepository userRepository = Get.put(UserRepository());
 
 
-  Future<void> createUser(UserModel user) async {
+  Future<void> createUser(UserModel2 user) async {
 
     String UID = await AuthenticationRepository.instance.createUserWithEmailAndPassword(user.email ?? "",user.password ?? "");
     await userRepository.creatUser(user,UID);
