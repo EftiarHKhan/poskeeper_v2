@@ -7,6 +7,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:store_redirect/store_redirect.dart';
 import 'package:stormen/DB_Helper/product/product_db.dart';
+import 'package:stormen/DB_Helper/sell_product/sell_db.dart';
 import 'package:stormen/Features/pdf/controller/pdf_controller.dart';
 import 'package:stormen/Repository/authentication_repository/authentication_repository.dart';
 import 'package:stormen/Utils/Widgets/sidebar/widget/sync_animation_widget.dart';
@@ -18,6 +19,7 @@ class SideMenuBar extends StatelessWidget {
   final SyncController syncController = Get.put(SyncController());
   final PdfController pdfController = Get.put(PdfController());
   final DatabaseHelper databaseHelper = DatabaseHelper.instance;
+  final DatabaseHelperSell selldatabaseHelper = DatabaseHelperSell.instance;
 
 
   void _openPlayStoreDevAccount() async {
@@ -69,6 +71,7 @@ class SideMenuBar extends StatelessWidget {
             onTap: () async {
               //syncController.startRotation();
               await databaseHelper.syncDataToFirebase(context);
+              await selldatabaseHelper.SellsyncDataToFirebase(context);
             },
           ),
           Divider(),
@@ -157,7 +160,22 @@ class SideMenuBar extends StatelessWidget {
               style: TextStyle(fontSize: 15,color: Colors.red),
             ),
             onTap: (){
-              AuthenticationRepository.instance.logout();
+              Get.defaultDialog(
+                title: 'Logout',
+                titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                titlePadding: EdgeInsets.only(top: 20),
+                contentPadding: EdgeInsets.all(20),
+                middleText: 'Your all data will remove after logout.Sync it before logout.\n\nAre you sure ?',
+                confirm: FilledButton(onPressed: () async {
+                  Get.back();
+                  AuthenticationRepository.instance.logout();
+                }, child: Text('Yes')),
+                cancel: OutlinedButton(onPressed: (){
+                  Get.back();
+                },
+                    child: Text('No')),
+              );
+
             },
           ),
 

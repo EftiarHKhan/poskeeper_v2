@@ -9,6 +9,7 @@ class UserRepository extends GetxController{
 
   final _db = FirebaseFirestore.instance;
   final String key = 'myUIDKey';
+  final String key2 = 'storeName';
 
   creatUser(UserModel2 user,String uid) async {
     await _db.collection("Users").doc(uid).set(user.toJson2())
@@ -21,6 +22,8 @@ class UserRepository extends GetxController{
   Future<UserModel2> getUserDetails(String email) async{
     final snapshot = await _db.collection("Users").where("Email" , isEqualTo: email).get();
     final userData = snapshot.docs.map((e) => UserModel2.fromSnapshot(e)).single;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(key2, userData.storeName?? '');
     return userData;
   }
 

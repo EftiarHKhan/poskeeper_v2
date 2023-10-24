@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stormen/Features/dashboard/controllers/stock_controller.dart';
+import 'package:stormen/Features/profile/controllers/update_controller.dart';
 import 'package:stormen/Utils/Widgets/sizebox/space_widget.dart';
 
 
@@ -19,6 +20,7 @@ class StockScreen extends StatefulWidget {
 class _StockScreenState extends State<StockScreen> with SingleTickerProviderStateMixin{
 
   final StockController stockController = Get.put(StockController());
+  final UpdateProfileController updateProfileController = Get.put(UpdateProfileController());
 
   late TabController _tabController;
 
@@ -31,7 +33,7 @@ class _StockScreenState extends State<StockScreen> with SingleTickerProviderStat
       // Fetch data from the database
       stockController.fetchData();
       setState(() {
-
+        updateProfileController.getUserData();
       });
     });
 

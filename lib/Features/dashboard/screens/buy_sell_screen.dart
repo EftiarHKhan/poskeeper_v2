@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:stormen/Constands/sizes_strings.dart';
 import 'package:stormen/Features/dashboard/screens/widgets/custom_list_widget.dart';
+import 'package:stormen/Features/profile/controllers/update_controller.dart';
 
 import '../../../Constands/image_strings.dart';
 import '../../../Constands/text_strings.dart';
@@ -18,6 +19,16 @@ class BuySellScreen extends StatefulWidget {
 }
 
 class _BuySellScreenState extends State<BuySellScreen> {
+  final UpdateProfileController updateProfileController = Get.put(UpdateProfileController());
+
+  @override
+  void initState() {
+    super.initState();
+      setState(() {
+        updateProfileController.getUserData();
+      });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

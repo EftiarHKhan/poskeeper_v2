@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:stormen/DB_Helper/sell_product/sell_db.dart';
 import 'package:stormen/Features/authentication/screens/Welcome_Screen/welcome_screen.dart';
 import 'package:stormen/Features/dashboard/screens/dashboard_screen.dart';
 import 'exceptions/signup_email_password_failure.dart';
@@ -9,9 +10,11 @@ class AuthenticationRepository extends GetxController{
 
   static AuthenticationRepository get instance => Get.find();
 
+  final DatabaseHelperSell selldatabaseHelper = DatabaseHelperSell.instance;
   final _auth = FirebaseAuth.instance;
   late final Rx<User?> firebaseUser ;
   final String key = 'myUIDKey';
+  final String key2 = 'storeName';
 
   @override
   void onReady() {
@@ -58,6 +61,8 @@ class AuthenticationRepository extends GetxController{
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(key);
+    await prefs.remove(key2);
+    await selldatabaseHelper.deleteAllProductData();
     await _auth.signOut();
   }
 

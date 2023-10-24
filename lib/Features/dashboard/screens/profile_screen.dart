@@ -27,6 +27,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final UpdateProfileController updateProfileController = Get.put(UpdateProfileController());
 
   @override
+  void initState() {
+    super.initState();
+      setState(() {
+        updateProfileController.getUserData();
+      });
+    }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
@@ -71,7 +79,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           icon: LineAwesomeIcons.alternate_sign_out,
                           textColor: Colors.red,
                           endIcon: false,
-                          onPress: () {AuthenticationRepository.instance.logout();},),
+                          onPress: () {
+                            Get.defaultDialog(
+                              title: 'Logout',
+                              titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                              titlePadding: EdgeInsets.only(top: 20),
+                              contentPadding: EdgeInsets.all(20),
+                              middleText: 'Your all data will remove after logout.Sync it before logout.\n\nAre you sure ?',
+                              confirm: FilledButton(onPressed: () async {
+                                Get.back();
+                                AuthenticationRepository.instance.logout();
+                              }, child: Text('Yes')),
+                              cancel: OutlinedButton(onPressed: (){
+                                Get.back();
+                              },
+                                  child: Text('No')),
+                            );
+                          },
+                        ),
                       ],
                     );
                   }else if(snapshot.hasError){

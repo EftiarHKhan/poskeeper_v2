@@ -8,6 +8,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:stormen/Features/dashboard/controllers/details_controller.dart';
 import 'package:stormen/Features/dashboard/screens/widgets/chart_titles_widget.dart';
 import 'package:stormen/Features/pdf/controller/pdf_controller.dart';
+import 'package:stormen/Features/profile/controllers/update_controller.dart';
 import 'package:stormen/Utils/Widgets/appbar/home_appbar.dart';
 import 'package:stormen/Utils/Widgets/sizebox/space_widget.dart';
 
@@ -22,6 +23,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
 
   final DetailsController detailsController = Get.put(DetailsController());
   final PdfController pdfController = Get.put(PdfController());
+  final UpdateProfileController updateProfileController = Get.put(UpdateProfileController());
 
   @override
   void initState() {
@@ -32,6 +34,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
       detailsController.fetchData();
       setState(() {
         detailsController.fetchData();
+        updateProfileController.getUserData();
       });
     });
   }

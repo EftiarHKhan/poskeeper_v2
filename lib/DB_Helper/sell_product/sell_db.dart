@@ -1,6 +1,7 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:stormen/Features/sell_product/model/sell_product_model.dart';
@@ -8,6 +9,7 @@ import 'package:stormen/Features/sell_product/model/sell_product_model.dart';
 class DatabaseHelperSell {
   late Database _database;
   late Database _database2;
+  final String key = 'myUIDKey';
 
   static final DatabaseHelperSell instance = DatabaseHelperSell._privateConstructor();
 
@@ -52,14 +54,16 @@ class DatabaseHelperSell {
   }
 
   Future<void> SellsyncDataToFirebase(BuildContext context) async {
-    // Reference to the Firebase node where sell products are stored
-    DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child('Sync_Sell');
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString(key) ?? '';
+    DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child(uid).child('Sell_Product');
 
     try {
       // Query all sell products from SQLite
       final List<SellProduct> sellProducts = await queryAllProducts();
       if (sellProducts.isEmpty) {
-        Get.snackbar('Notice', 'Sell-List is Empty');
+        await syncSellProductsDataToLocalDatabase(context);
       }else{
         // Query all sell products from Firebase and remove them
         await firebaseRef.remove();
@@ -67,7 +71,7 @@ class DatabaseHelperSell {
         for (SellProduct product in sellProducts) {
           try {
             // Insert the sell product as a new record in Firebase
-            await firebaseRef.child(product.id.toString()).set(product.toMap());
+            await firebaseRef.child("${product.id.toString()}-${product.ProductName.toString()}").set(product.toMap());
           } catch (error) {
             print('Error syncing sell product to Firebase: ${error.toString()}');
           }
@@ -114,6 +118,16 @@ class DatabaseHelperSell {
     );
     Get.snackbar('Delete', 'Product successfully deleted');
   }
+
+  Future<void> deleteAllProductData() async {
+    if (_database != null) {
+      await _database.delete('sellproduct');
+    }
+    if (_database2 != null) {
+      await _database2.delete('allproduct');
+    }
+  }
+
 
   Future<void> _updateStock(String itemName, int quantitySold) async {
     // Get the current stock for the given product
@@ -206,37 +220,38 @@ class DatabaseHelperSell {
   }
 
   Future<void> syncSellProductsDataToLocalDatabase(BuildContext context) async {
-    final DatabaseReference firebaseRef =
-    FirebaseDatabase.instance.reference().child('Sync_Sell');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String uid = prefs.getString(key) ?? '';
+    final DatabaseReference firebaseRef = FirebaseDatabase.instance.reference().child(uid).child('Sell_Product');
     try {
       List<SellProduct> existingProducts = await queryAllProducts();
       if (existingProducts.isEmpty) {
         DatabaseEvent snapshot = await firebaseRef.once();
-        if (snapshot.snapshot.value != null && snapshot.snapshot.value is List<dynamic>) {
-          // Explicitly cast snapshot.value to List<dynamic>
-          List<dynamic> data = snapshot.snapshot.value as List<dynamic>;
-
-          for (var value in data) {
-            // Add a null check before accessing properties
-            if (value != null) {
-              SellProduct sellProduct = SellProduct(
-                ProductName: value['itemName'],
-                SalePrice: value['salePrice'].toDouble(),
-                Quentity: value['quantity'],
-                FinalPrice: value['finalPrice'].toDouble(),
-                date: value['date'],
-                Purchaseprice: value['purchaseprice'],
-              );
-              await _database.insert(
-                'sellproduct',
-                sellProduct.toMap(),
-                conflictAlgorithm: ConflictAlgorithm.replace,
-              );
-            }
+        if (snapshot.snapshot.value != null) {
+          if(snapshot.snapshot.value is Map){
+            Map<dynamic, dynamic> data = snapshot.snapshot.value as Map<dynamic, dynamic>;
+            data.forEach((key, value) async {
+              if (value != null && value is Map<dynamic, dynamic>) {
+                SellProduct sellProduct = SellProduct(
+                  ProductName: value['itemName'],
+                  SalePrice: value['salePrice'].toDouble(),
+                  Quentity: value['quantity'],
+                  FinalPrice: value['finalPrice'].toDouble(),
+                  date: value['date'],
+                  Purchaseprice: value['purchaseprice'].toDouble(),
+                );
+                await _database.insert(
+                  'sellproduct',
+                  sellProduct.toMap(),
+                  conflictAlgorithm: ConflictAlgorithm.replace,
+                );
+                print('Done');
+              }
+            });
+            Get.snackbar('Notice', 'Sell-List Sync Successfully');
           }
-          Get.snackbar('Notice', 'Sell-List Sync Successfully');
         }
-      }else{
+      } else {
         Get.snackbar('Notice', 'Database already contains data');
       }
     } catch (error) {
