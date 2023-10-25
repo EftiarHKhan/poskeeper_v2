@@ -6,7 +6,7 @@ class Product {
   final int lowStock;
   final String date;
   final int id;
-  final String image;
+   String image;
 
   Product({
     required this.itemName,

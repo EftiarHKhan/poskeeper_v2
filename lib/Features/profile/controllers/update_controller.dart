@@ -29,8 +29,6 @@ class UpdateProfileController extends GetxController{
     }
   }
 
-
-
   Future<String?> uploadImage(File? image) async {
     if (image == null) {
       print('Null');

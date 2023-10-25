@@ -25,6 +25,7 @@ const String tBannerImage3 = "assets/logo/java.png";
 
 const String tProfileImage = "assets/logo/Pic.jpg";
 const String tEmptyImage = "assets/images/emptyimage.jpg";
+const String tEmptyImage2 = "assets/images/empty.png";
 
 
 

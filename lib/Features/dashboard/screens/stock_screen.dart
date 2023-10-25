@@ -5,6 +5,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:stormen/Constands/image_strings.dart';
 import 'package:stormen/Features/dashboard/controllers/stock_controller.dart';
 import 'package:stormen/Features/profile/controllers/update_controller.dart';
 import 'package:stormen/Utils/Widgets/sizebox/space_widget.dart';
@@ -192,7 +193,16 @@ class _StockScreenState extends State<StockScreen> with SingleTickerProviderStat
                                                             flex: 1,
                                                             child: Column(
                                                               crossAxisAlignment: CrossAxisAlignment.end,
-                                                              children: [Image.file(File(stockController.foundUsers[index].image),width: 100,height: 100,)
+                                                              children: [
+                                                                Container(
+                                                                  width: 100,
+                                                                  height: 100,
+                                                                  child: FadeInImage(
+                                                                    placeholder: AssetImage(tEmptyImage2), // Replace with the actual path to your placeholder image
+                                                                    image: NetworkImage(stockController.foundUsers[index].image),
+                                                                    fit: BoxFit.cover,
+                                                                  ),
+                                                                ),
                                                               ],
                                                             ),
                                                           ),

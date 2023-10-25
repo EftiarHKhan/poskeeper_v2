@@ -101,6 +101,7 @@ flutter:
     - assets/images/banner.jpg
     - assets/images/stormen.png
     - assets/images/emptyimage.jpg
+    - assets/images/empty.png
     - assets/logo/
 
   # An image asset can refer to one or more resolution-specific "variants", see

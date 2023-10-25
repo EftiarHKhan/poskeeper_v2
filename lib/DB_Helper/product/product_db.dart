@@ -115,7 +115,7 @@ class DatabaseHelper {
     });
 
     // Sort the list by 'id' in ascending order
-    productList.sort((a, b) => a.date.compareTo(b.date));
+    productList.sort((a, b) => b.date.compareTo(a.date));
 
     // Reverse the order of the list to display the latest input at the top
     return productList.toList();
