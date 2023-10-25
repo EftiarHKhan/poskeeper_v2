@@ -31,14 +31,14 @@ class UserModel{
 
 class UserModel2 {
   final String? id;
-  final String? image;
+   String? image;
   final String? fullname;
   final String? email;
   final String? phoneNo;
   final String? password;
   final String? storeName;
 
-  const UserModel2({
+   UserModel2({
     this.id,
     this.image,
     required this.fullname,
@@ -47,6 +47,9 @@ class UserModel2 {
     required this.password,
     required this.storeName,
   });
+  set setImage(String? newImage) {
+    image = newImage;
+  }
 
   toJson2(){
     return{

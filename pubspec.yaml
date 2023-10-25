@@ -60,6 +60,7 @@ dependencies:
   cloud_firestore: ^4.9.3
   image_picker: ^1.0.4
   shared_preferences: ^2.2.2
+  firebase_storage: ^11.4.0
 
 flutter_icons:
   android: true

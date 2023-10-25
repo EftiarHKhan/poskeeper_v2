@@ -53,7 +53,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(
                           width: 120,
                           height: 120,
-                          child: ClipRRect(borderRadius:BorderRadius.circular(100),child: Image(image: AssetImage(tEmptyImage),)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(100),
+                            child: CircleAvatar(
+                              radius: 40,
+                              backgroundImage: userData.image != null && userData.image!.isNotEmpty
+                                  ? NetworkImage(userData.image!)
+                                  : null, // Null if no image URL is provided
+                            ),
+                          ),
                         ),
                         space(10),
                         Text(userData.fullname.toString(),style: GoogleFonts.mavenPro(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 18),),

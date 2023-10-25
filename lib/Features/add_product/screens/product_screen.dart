@@ -97,7 +97,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                                 titleStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
                                 titlePadding: EdgeInsets.only(top: 20),
                                 contentPadding: EdgeInsets.all(20),
-                                middleText: 'Do you really want to print this receipt?',
+                                middleText: 'Do you want to pick a image ?',
                                 confirm: OutlinedButton(onPressed: () async {
                                   Get.back();
                                   im.camera();
