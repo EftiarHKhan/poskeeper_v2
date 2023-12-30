@@ -44,38 +44,38 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBmJSma6aInbd1ttcSBYG406Av7yJUIYjs',
-    appId: '1:688643592050:web:adc4370365367d4b1017eb',
-    messagingSenderId: '688643592050',
-    projectId: 'stormenmain',
-    authDomain: 'stormenmain.firebaseapp.com',
-    storageBucket: 'stormenmain.appspot.com',
-    measurementId: 'G-9CJ9DBSDSC',
+    apiKey: 'AIzaSyDXD7uusyJV6MgaWFhrWmIwh4_kQfBp30c',
+    appId: '1:181567391284:web:b0c00c6784b0a2e0e36c61',
+    messagingSenderId: '181567391284',
+    projectId: 'poskeeper',
+    authDomain: 'poskeeper.firebaseapp.com',
+    storageBucket: 'poskeeper.appspot.com',
+    measurementId: 'G-D3ENZXTR12',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBKKOqc2wbgs63gFHtsSC1i7ibHesPWoEo',
-    appId: '1:688643592050:android:3c316125d6e41b101017eb',
-    messagingSenderId: '688643592050',
-    projectId: 'stormenmain',
-    storageBucket: 'stormenmain.appspot.com',
+    apiKey: 'AIzaSyBtX4n7fssoZWQpDyE2iwpO4qL9lTjvzbM',
+    appId: '1:181567391284:android:c2857153b89bd4f5e36c61',
+    messagingSenderId: '181567391284',
+    projectId: 'poskeeper',
+    storageBucket: 'poskeeper.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCXWunDXk3J4NA7V7DZ_CeoD3bUaaGTMYE',
-    appId: '1:688643592050:ios:e94e0f69f051e89a1017eb',
-    messagingSenderId: '688643592050',
-    projectId: 'stormenmain',
-    storageBucket: 'stormenmain.appspot.com',
+    apiKey: 'AIzaSyD83YwwGtonoHnfiJNBhpodE83BiFlQr2o',
+    appId: '1:181567391284:ios:6d58cc46ad0c58a2e36c61',
+    messagingSenderId: '181567391284',
+    projectId: 'poskeeper',
+    storageBucket: 'poskeeper.appspot.com',
     iosBundleId: 'com.example.stormen',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCXWunDXk3J4NA7V7DZ_CeoD3bUaaGTMYE',
-    appId: '1:688643592050:ios:9c712650cecffb5d1017eb',
-    messagingSenderId: '688643592050',
-    projectId: 'stormenmain',
-    storageBucket: 'stormenmain.appspot.com',
+    apiKey: 'AIzaSyD83YwwGtonoHnfiJNBhpodE83BiFlQr2o',
+    appId: '1:181567391284:ios:bd4ea22132737762e36c61',
+    messagingSenderId: '181567391284',
+    projectId: 'poskeeper',
+    storageBucket: 'poskeeper.appspot.com',
     iosBundleId: 'com.example.stormen.RunnerTests',
   );
 }

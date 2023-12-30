@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:footer/footer.dart';
@@ -56,23 +58,22 @@ class SideMenuBar extends StatelessWidget {
                 color: Colors.blueAccent,
             ),
           ),
-          ListTile(
-            leading: RotationTransition(
-                turns: Tween<double>(
-                  begin: 0.0,
-                  end: 1.0,
-                ).animate(syncController.animationController),
-                child: const Icon(LineAwesomeIcons.sync_icon),
+          Obx(()=> ListTile(
+              leading: AnimatedRotation(
+                  turns: syncController.a.value,
+                  duration: Duration(seconds: 3),
+                  child: const Icon(LineAwesomeIcons.sync_icon),
+                ),
+              title: const Text(
+                "Sync",
+                style: TextStyle(fontSize: 15),
               ),
-            title: const Text(
-              "Sync",
-              style: TextStyle(fontSize: 15),
+              onTap: () async {
+                syncController.startRotation();
+                await databaseHelper.syncDataToFirebase(context);
+                await selldatabaseHelper.SellsyncDataToFirebase(context);
+              },
             ),
-            onTap: () async {
-              //syncController.startRotation();
-              await databaseHelper.syncDataToFirebase(context);
-              await selldatabaseHelper.SellsyncDataToFirebase(context);
-            },
           ),
           Divider(),
           ListTile(

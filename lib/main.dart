@@ -10,7 +10,7 @@ import 'package:stormen/firebase_options.dart';
 void main() async{
 
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) => Get.put(AuthenticationRepository()));
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform).then((value) => Get.put(AuthenticationRepository()));
   await DatabaseHelper.instance.initializeDatabase();
   await DatabaseHelperSell.instance.initializeDatabase();
 
